@@ -20,7 +20,10 @@ def relu(x):
 
 def relu_gradient(x):
     """Gradient of ReLU function."""
-    return (x > 0).astype(float)
+    # Convert to numpy array if scalar
+    x = np.array(x)
+    # Handle both scalar and array inputs
+    return np.where(x > 0, 1.0, 0.0)
 
 def tanh(x):
     """Tanh activation function."""
