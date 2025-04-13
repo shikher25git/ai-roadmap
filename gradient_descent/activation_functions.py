@@ -4,6 +4,8 @@ Implementation and visualization of common activation functions and their gradie
 
 import numpy as np
 import matplotlib.pyplot as plt
+# Add this line for Jupyter notebooks
+%matplotlib inline
 
 def sigmoid(x):
     """Sigmoid activation function."""
@@ -35,7 +37,10 @@ def tanh_gradient(x):
 
 def plot_activation_functions():
     """Plot activation functions and their gradients."""
-    x = np.linspace(-5, 5, 100)
+    # Create two sets of points to better show the discontinuity
+    x_neg = np.linspace(-5, -0.01, 50)
+    x_pos = np.linspace(0.01, 5, 50)
+    x = np.concatenate([x_neg, x_pos])
     
     # Create figure with subplots
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 5))
@@ -53,8 +58,14 @@ def plot_activation_functions():
     
     # Plot gradients
     ax2.plot(x, sigmoid_gradient(x), label='Sigmoid Gradient', linewidth=2)
-    ax2.plot(x, relu_gradient(x), label='ReLU Gradient', linewidth=2)
+    # Plot ReLU gradient separately for negative and positive regions
+    ax2.plot(x_neg, relu_gradient(x_neg), 'b-', label='ReLU Gradient', linewidth=2)
+    ax2.plot(x_pos, relu_gradient(x_pos), 'b-', linewidth=2)
     ax2.plot(x, tanh_gradient(x), label='Tanh Gradient', linewidth=2)
+    
+    # Add a point at x=0 to show the discontinuity
+    ax2.plot(0, 0, 'bo', markersize=8)
+    ax2.plot(0, 1, 'bo', markersize=8, fillstyle='none')
     
     ax2.set_title('Gradients of Activation Functions')
     ax2.set_xlabel('x')
@@ -63,8 +74,7 @@ def plot_activation_functions():
     ax2.legend()
     
     plt.tight_layout()
-    plt.savefig('gradient_descent/activation_functions.png')
-    plt.close()
+    return fig
 
 def check_gradients_at_points(points=[-2, -1, 0, 1, 2]):
     """Print activation values and gradients at specific points."""
@@ -84,7 +94,8 @@ def check_gradients_at_points(points=[-2, -1, 0, 1, 2]):
 
 if __name__ == "__main__":
     # Plot activation functions and their gradients
-    plot_activation_functions()
+    fig = plot_activation_functions()
+    plt.show()
     
     # Check values at specific points
     check_gradients_at_points()
