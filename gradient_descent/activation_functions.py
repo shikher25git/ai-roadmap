@@ -4,8 +4,6 @@ Implementation and visualization of common activation functions and their gradie
 
 import numpy as np
 import matplotlib.pyplot as plt
-# Add this line for Jupyter notebooks
-%matplotlib inline
 
 def sigmoid(x):
     """Sigmoid activation function."""
